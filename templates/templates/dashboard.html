@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SIEN TECHMODA</title>
+    <style>
+        body { font-family: Arial; background: #1e1e1e; color: white; }
+        .card { background: #2d2d2d; padding: 20px; margin: 10px; border-radius: 8px; }
+        .alert { color: red; font-weight: bold; }
+        input, button { padding: 5px; margin: 5px; }
+        table { width: 100%; margin-top: 20px; }
+        th, td { padding: 8px; text-align: center; }
+        th { background: #333; }
+    </style>
+</head>
+<body>
+
+<h1>SIEN JAQUETAS E UNIFORMES</h1>
+
+<div class="card">
+    <h3>Total Pedidos: {{ total_pedidos }}</h3>
+    <h3 class="alert">Costuras Atrasadas: {{ atrasados }}</h3>
+</div>
+
+<div class="card">
+    <h2>Novo Pedido</h2>
+    <form method="POST" action="/novo">
+        Cliente: <input name="cliente" required>
+        Modelo: <input name="modelo" required>
+        Costureira: <input name="costureira">
+        Data Saída: <input type="date" name="data_saida">
+        Data Retorno: <input type="date" name="data_retorno">
+        <button type="submit">Criar</button>
+    </form>
+</div>
+
+<div class="card">
+    <h2>Pedidos</h2>
+    <table border="1">
+        <tr>
+            <th>Número</th>
+            <th>Cliente</th>
+            <th>Modelo</th>
+            <th>Costureira</th>
+            <th>Retorno</th>
+            <th>Status</th>
+            <th>Ação</th>
+        </tr>
+        {% for p in pedidos %}
+        <tr>
+            <td>{{ p.numero }}</td>
+            <td>{{ p.cliente }}</td>
+            <td>{{ p.modelo }}</td>
+            <td>{{ p.costureira }}</td>
+            <td>{{ p.data_retorno }}</td>
+            <td>{{ p.status }}</td>
+            <td>
+                {% if p.status != "PAGO" %}
+                <a href="/pagar/{{ p.numero }}">Marcar Pago</a>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+</body>
+</html>
